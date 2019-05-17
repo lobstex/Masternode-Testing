@@ -239,6 +239,7 @@ daemon=1
 maxconnections=30
 externalip=$publicip:$PORT
 masternode=1
+bind=$publicip
 port=$PORT
 masternodeprivkey=$genkey
 EOF
