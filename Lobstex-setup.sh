@@ -1,18 +1,18 @@
 #!/bin/bash
-# Hilux Masternode Setup Script V1.3 for Ubuntu 16.04 LTS
-# (c) 2018 by Rush Hour, for Hilux
+# Lobstex Masternode Setup Script for Ubuntu 16.04 LTS
+# 
 #
 # Script will attempt to autodetect primary public IP address
 # and generate masternode private key unless specified in command line
 #
 # Usage:
-# bash Hilux-setup.sh [Masternode_Private_Key]
+# bash lobstex-setup.sh [Masternode_Private_Key]
 #
 # Example 1: Existing genkey created earlier is supplied
-# bash Hilux-setup.sh 27dSmwq9CabKjo2L3UD1HvgBP3ygbn8HdNmFiGFoVbN1STcsypy
+# bash lobstex-setup.sh 27dSmwq9CabKjo2L3UD1HvgBP3ygbn8HdNmFiGFoVbN1STcsypy
 #
 # Example 2: Script will generate a new genkey automatically
-# bash Hilux-setup.sh
+# bash lobstex-setup.sh
 #
 #Color codes
 
@@ -21,8 +21,8 @@ GREEN='\033[1;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-#hilux TCP port
-PORT=7979
+#lobstex TCP port
+PORT=14146
 
 #Clear keyboard input buffer
 function clear_stdin { while read -r -t 0; do read -r; done; }
@@ -31,17 +31,17 @@ function delay { echo -e "${GREEN}Sleep for $1 seconds...${NC}"; sleep "$1"; }
 #Stop daemon if it's already running
 
 function stop_daemon {
-    if pgrep -x 'hiluxd' > /dev/null; then
-        echo -e "${YELLOW}Attempting to stop hiluxd${NC}"
-        hilux-cli stop
+    if pgrep -x 'lobstexd' > /dev/null; then
+        echo -e "${YELLOW}Attempting to stop lobstexd${NC}"
+        lobstex-cli stop
         delay 30
-        if pgrep -x 'hiluxd' > /dev/null; then
-            echo -e "${RED}hiluxd daemon is still running!${NC} \a"
+        if pgrep -x 'lobstexd' > /dev/null; then
+            echo -e "${RED}lobstexd daemon is still running!${NC} \a"
             echo -e "${YELLOW}Attempting to kill...${NC}"
-            pkill hiluxd
+            pkill lobstexd
             delay 30
-            if pgrep -x 'hiluxd' > /dev/null; then
-                echo -e "${RED}Can't stop hiluxd! Reboot and try again...${NC} \a"
+            if pgrep -x 'lobstexd' > /dev/null; then
+                echo -e "${RED}Can't stop lobstexd! Reboot and try again...${NC} \a"
                 exit 2
             fi
         fi
@@ -52,7 +52,7 @@ function stop_daemon {
 genkey=$1
 
 clear
-echo -e "${YELLOW}(c) 2018 by Rush Hour, hilux Masternode Setup Script V1.3 for Ubuntu 16.04 LTS${NC}"
+echo -e "${YELLOW}lobstex Masternode Setup Script for Ubuntu 16.04 LTS${NC}"
 echo -e "${GREEN}Updating system and installing required packages...${NC}"
 sudo DEBIAN_FRONTEND=noninteractive apt-get update -y
 
@@ -162,42 +162,37 @@ fi
 #Installing Daemon
 echo -e "${GREEN}Installing Daemon....${NC}"
 cd ~
-mkdir hilux
-cd hilux
-wget https://github.com/swatchie-1/hilux/releases/download/v1.0.1/hilux-masternode.tar.gz
-tar -xvf hilux-masternode.tar.gz 
-rm -rf hilux-masternode.tar.gz
+mkdir lobstex
+cd lobstex
+wget https://github.com/lobstex/lobstex2.3/releases/download/2.3-v2/wills-linux.zip
+unzip wills-linux.zip
 
 stop_daemon
 
 # Deploy binaries to /usr/bin
 cd ~
-sudo cp hilux/hilux* /usr/bin/
-sudo chmod 755 -R ~/hilux
-sudo chmod 755 /usr/bin/hilux*
-
-# Deploy masternode monitoring script
-cp ~/HLXmasternodesetup/HLXnodemon.sh /usr/local/bin
-sudo chmod 711 /usr/local/bin/HLXnodemon.sh
+sudo cp lobstex/lobstex* /usr/bin/
+sudo chmod 755 -R ~/lobstex
+sudo chmod 755 /usr/bin/lobstex*
 
 #Create datadir
-if [ ! -f ~/.hiluxcore/hilux.conf ]; then 
-	sudo mkdir ~/.hiluxcore
+if [ ! -f ~/.lobstex/lobstex.conf ]; then 
+	sudo mkdir ~/.lobstex
 fi
 
-echo -e "${YELLOW}Creating hilux.conf...${NC}"
+echo -e "${YELLOW}Creating lobstex.conf...${NC}"
 
 # If genkey was not supplied in command line, we will generate private key on the fly
 if [ -z $genkey ]; then
-    cat <<EOF > ~/.hiluxcore/hilux.conf
+    cat <<EOF > ~/.lobstex/lobstex.conf
 rpcuser=$rpcuser
 rpcpassword=$rpcpassword
 EOF
 
-    sudo chmod 755 -R ~/.hiluxcore/hilux.conf
+    sudo chmod 755 -R ~/.lobstex/lobstex.conf
 
     #Starting daemon first time just to generate masternode private key
-    hiluxd -daemon
+    lobstexd -daemon
    echo -ne '[##                 ] (15%)\r'
     sleep 6
     echo -ne '[######             ] (30%)\r'
@@ -211,15 +206,15 @@ EOF
 
     #Generate masternode private key
     echo -e "${YELLOW}Generating masternode private key...${NC}"
-    genkey=$(hilux-cli masternode genkey)
+    genkey=$(lobstex-cli masternode genkey)
     if [ -z "$genkey" ]; then
         echo -e "${RED}ERROR: Can not generate masternode private key.${NC} \a"
         echo -e "${RED}ERROR:${YELLOW}Reboot VPS and try again or supply existing genkey as a parameter.${NC}"
         exit 1
     fi
     
-    #Stopping daemon to create Hilux.conf
-    echo -e "${YELLOW}Stopping daemon to create Hilux.conf....${NC}"
+    #Stopping daemon to create lobstex.conf
+    echo -e "${YELLOW}Stopping daemon to create lobstex.conf....${NC}"
     stop_daemon
     echo -ne '[##                 ] (15%)\r'
     sleep 6
@@ -233,9 +228,9 @@ EOF
     echo -ne '\n'
 fi
 
-# Create Hilux.conf
-echo -e "${YELLOW}Creating Hilux.conf....${NC}"
-cat <<EOF > ~/.hiluxcore/hilux.conf
+# Create lobstex.conf
+echo -e "${YELLOW}Creating lobstex.conf....${NC}"
+cat <<EOF > ~/.lobstex/lobstex.conf
 rpcuser=$rpcuser
 rpcpassword=$rpcpassword
 rpcallowip=127.0.0.1
@@ -249,9 +244,9 @@ masternode=1
 masternodeprivkey=$genkey
 EOF
 
-#Finally, starting HLX daemon with new Hilux.conf
-echo -e "${GREEN}Finally, starting HLX daemon with new Hilux.conf....${NC}"
-hiluxd -daemon
+#Finally, starting lobstex daemon with new lobstex.conf
+echo -e "${GREEN}Finally, starting lobstex daemon with new lobstex.conf....${NC}"
+lobstexd -daemon
 delay 5
 
 # Download and install sentinel
@@ -261,17 +256,17 @@ cd
 sudo apt-get -y install python3-pip
 sudo pip3 install virtualenv
 sudo apt-get install screen
-sudo git clone https://github.com/swatchie-1/sentinel.git /root/sentinel-hilux
-cd /root/sentinel-hilux
+sudo git clone https://github.com/swatchie-1/sentinel.git /root/sentinel-lobstex
+cd /root/sentinel-lobstex
 virtualenv venv
 . venv/bin/activate
 pip install -r requirements.txt
 export EDITOR=nano
-(crontab -l -u root 2>/dev/null; echo '* * * * * cd /root/sentinel-hilux && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1') | sudo crontab -u root -
+(crontab -l -u root 2>/dev/null; echo '* * * * * cd /root/sentinel-lobstex && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1') | sudo crontab -u root -
 
-#Setting auto star cron job for hiluxd
-echo -e "${GREEN}Setting auto star cron job for hiluxd....${NC}"
-cronjob="@reboot sleep 30 && hiluxd -daemon"
+#Setting auto star cron job for lobstexd
+echo -e "${GREEN}Setting auto star cron job for lobstexd....${NC}"
+cronjob="@reboot sleep 30 && lobstexd -daemon"
 crontab -l > tempcron
 if ! grep -q "$cronjob" tempcron; then
     echo -e "${GREEN}Configuring crontab job...${NC}"
@@ -286,7 +281,7 @@ ${YELLOW}Masternode setup is complete!${NC}
 Masternode was installed with VPS IP Address: ${YELLOW}$publicip${NC}
 Masternode Private Key: ${YELLOW}$genkey${NC}
 Now you can add the following string to the masternode.conf file
-for your Hot Wallet (the wallet with your 10,000 or 50,0000 HLX collateral funds):
+for your Hot Wallet (the wallet with your 10,000 lobs collateral funds):
 ======================================================================== \a"
 echo -e "${YELLOW}mn1 $publicip:$PORT $genkey TxId TxIdx${NC}"
 echo -e "========================================================================
@@ -297,7 +292,7 @@ into your ${YELLOW}masternode.conf${NC} file and replace:
     ${YELLOW}TxId${NC} - with Transaction Id from masternode outputs
     ${YELLOW}TxIdx${NC} - with Transaction Index (0 or 1)
      Remember to save the masternode.conf and restart the wallet!
-To introduce your new masternode to the HLX network, you need to
+To introduce your new masternode to the lobstex network, you need to
 issue a masternode start command from your wallet, which proves that
 the collateral for this node is secured."
 
@@ -324,7 +319,7 @@ Once completed step (2), return to this VPS console and wait for the
 Masternode Status to change to: 'Masternode successfully started'.
 This will indicate that your masternode is fully functional and
 you can celebrate this achievement!
-Currently your masternode is syncing with the Hilux network...
+Currently your masternode is syncing with the lobstex network...
 The following screen will display in real-time
 the list of peer connections, the status of your masternode,
 node synchronization status and additional network and node stats.
@@ -336,37 +331,22 @@ echo -e "
 ${GREEN}...scroll up to see previous screens...${NC}
 Here are some useful commands and tools for masternode troubleshooting:
 ========================================================================
-To view masternode configuration produced by this script in Hilux.conf:
-${YELLOW}cat ~/.hiluxcore/hilux.conf${NC}
-Here is your Hilux.conf generated by this script:
+To view masternode configuration produced by this script in lobstex.conf:
+${YELLOW}cat ~/.lobstex/lobstex.conf${NC}
+Here is your lobstex.conf generated by this script:
 -------------------------------------------------${YELLOW}"
-cat ~/.hiluxcore/Hilux.conf
+cat ~/.lobstex/lobstex.conf
 echo -e "${NC}-------------------------------------------------
-NOTE: To edit Hilux.conf, first stop the hiluxd daemon,
-then edit the Hilux.conf file and save it in nano: (Ctrl-X + Y + Enter),
-then start the hiluxd daemon back up:
-to stop:   ${YELLOW}hilux-cli stop${NC}
-to edit:   ${YELLOW}nano ~/.hiluxcore/Hilux.conf${NC}
-to start:  ${YELLOW}hiluxd${NC}
+NOTE: To edit lobstex.conf, first stop the lobstexd daemon,
+then edit the lobstex.conf file and save it in nano: (Ctrl-X + Y + Enter),
+then start the lobstexd daemon back up:
+to stop:   ${YELLOW}lobstex-cli stop${NC}
+to edit:   ${YELLOW}nano ~/.lobstex/lobstex.conf${NC}
+to start:  ${YELLOW}lobstexd${NC}
 ========================================================================
-To view hiluxd debug log showing all MN network activity in realtime:
-${YELLOW}tail -f ~/.hiluxcore/debug.log${NC}
+To view lobstexd debug log showing all MN network activity in realtime:
+${YELLOW}tail -f ~/.lobstex/debug.log${NC}
 ========================================================================
 To monitor system resource utilization and running processes:
 ${YELLOW}htop${NC}
 ========================================================================
-To view the list of peer connections, status of your masternode, 
-sync status etc. in real-time, run the HLXnodemon.sh script:
-${YELLOW}HLXnodemon.sh${NC}
-or just type 'node' and hit <TAB> to autocomplete script name.
-========================================================================
-Enjoy your Hilux Masternode and thanks for using this setup script!
-If you found this script and masternode setup guide helpful...,
-...please donate to the devfound: HLX  **HE1Ns83C6HRryy7jgVJHFCFexfC8PpTQpr**,
-or BTC to **3H1JNkydHxDbhoXLREpxXccvyNh7Awr2jX**
-Eswede
-"
-# Run HLXnodemon.sh
-HLXnodemon.sh
-
-# EOF
