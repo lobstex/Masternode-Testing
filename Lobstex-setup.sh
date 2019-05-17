@@ -244,7 +244,7 @@ EOF
 
 #Finally, starting lobstex daemon with new lobstex.conf
 echo -e "${GREEN}Finally, starting lobstex daemon with new lobstex.conf....${NC}"
-lobstexd -daemon
+./lobstexd -daemon
 delay 5
 
 # Download and install sentinel
