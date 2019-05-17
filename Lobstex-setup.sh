@@ -347,4 +347,24 @@ ${YELLOW}htop${NC}
 ========================================================================
 Enjoy your Lobstex Masternode and thanks for using this setup script!
 
-# EOF
+
+
+function setup_node() {
+  get_ip
+  create_config
+  create_key
+  update_config
+  enable_firewall
+  important_information
+  configure_systemd
+}
+
+
+##### Main #####
+clear
+
+purgeOldInstallation
+checks
+prepare_system
+download_node
+setup_node
