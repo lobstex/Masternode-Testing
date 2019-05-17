@@ -338,9 +338,9 @@ echo -e "${NC}-------------------------------------------------
 NOTE: To edit lobstex.conf, first stop the lobstexd daemon,
 then edit the lobstex.conf file and save it in nano: (Ctrl-X + Y + Enter),
 then start the lobstexd daemon back up:
-to stop:   ${YELLOW}lobstex-cli stop${NC}
+to stop:   ${YELLOW}./lobstex-cli stop${NC}
 to edit:   ${YELLOW}nano ~/.lobstex/lobstex.conf${NC}
-to start:  ${YELLOW}lobstexd${NC}
+to start:  ${YELLOW}./lobstexd${NC}
 ========================================================================
 To view lobstexd debug log showing all MN network activity in realtime:
 ${YELLOW}tail -f ~/.lobstex/debug.log${NC}
@@ -348,3 +348,6 @@ ${YELLOW}tail -f ~/.lobstex/debug.log${NC}
 To monitor system resource utilization and running processes:
 ${YELLOW}htop${NC}
 ========================================================================
+Enjoy your Lobstex Masternode and thanks for using this setup script!
+
+# EOF
