@@ -190,7 +190,7 @@ EOF
     sudo chmod 755 -R ~/.lobstex/lobstex.conf
 
     #Starting daemon first time just to generate masternode private key
-    lobstexd -daemon
+    ./lobstexd -daemon
    echo -ne '[##                 ] (15%)\r'
     sleep 6
     echo -ne '[######             ] (30%)\r'
