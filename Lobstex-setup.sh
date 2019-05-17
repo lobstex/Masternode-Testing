@@ -264,7 +264,7 @@ export EDITOR=nano
 
 #Setting auto star cron job for lobstexd
 echo -e "${GREEN}Setting auto star cron job for lobstexd....${NC}"
-cronjob="@reboot sleep 30 && lobstexd -daemon"
+cronjob="@reboot sleep 30 && ./lobstexd -daemon"
 crontab -l > tempcron
 if ! grep -q "$cronjob" tempcron; then
     echo -e "${GREEN}Configuring crontab job...${NC}"
