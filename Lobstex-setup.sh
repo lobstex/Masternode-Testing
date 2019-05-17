@@ -93,8 +93,10 @@ sudo apt-get -y install fail2ban
 sudo service fail2ban restart
 
 sudo apt-get install ufw -y
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test 
 sudo apt-get update -y
-sudo apt-get upgrade -yet
+sudo apt-get upgrade -y
+sudo apt-get dist-upgrade -y
 
 sudo apt install unzip
 
@@ -163,6 +165,7 @@ fi
 echo -e "${GREEN}Installing Daemon....${NC}"
 wget https://github.com/lobstex/lobstex2.3/releases/download/2.3-v2/wills-linux.zip
 unzip wills-linux.zip
+cd wills-linux
 chmod u+x lobstexd
 chmod u+x lobstex-cli
 ./lobstexd -daemon
