@@ -161,19 +161,14 @@ fi
 
 #Installing Daemon
 echo -e "${GREEN}Installing Daemon....${NC}"
-cd ~
-mkdir lobstex
-cd lobstex
 wget https://github.com/lobstex/lobstex2.3/releases/download/2.3-v2/wills-linux.zip
 unzip wills-linux.zip
+chmod u+x lobstexd
+chmod u+x lobstex-cli
+./lobstexd -daemon
+sleep 5
+./lobstex-cli stop
 
-stop_daemon
-
-# Deploy binaries to /usr/bin
-cd ~
-sudo cp lobstex/lobstex* /usr/bin/
-sudo chmod 755 -R ~/lobstex
-sudo chmod 755 /usr/bin/lobstex*
 
 #Create datadir
 if [ ! -f ~/.lobstex/lobstex.conf ]; then 
