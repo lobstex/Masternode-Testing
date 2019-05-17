@@ -237,8 +237,9 @@ listen=1
 server=1
 daemon=1
 maxconnections=30
-externalip=$publicip
+externalip=$publicip:$PORT
 masternode=1
+port=$PORT
 masternodeprivkey=$genkey
 EOF
 
@@ -251,14 +252,10 @@ delay 5
 echo -e "${YELLOW}Installing Sentinel....${NC}"
 sleep 3
 cd
-sudo apt-get -y install python3-pip
+sudo apt-get -y install python3-p
 sudo pip3 install virtualenv
 sudo apt-get install screen
 sudo git clone https://github.com/swatchie-1/sentinel.git /root/sentinel-lobstex
-cd /root/sentinel-lobstex
-virtualenv venv
-. venv/bin/activate
-pip install -r requirements.txt
 export EDITOR=nano
 (crontab -l -u root 2>/dev/null; echo '* * * * * cd /root/sentinel-lobstex && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1') | sudo crontab -u root -
 
