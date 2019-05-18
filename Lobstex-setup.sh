@@ -203,7 +203,7 @@ EOF
 
     #Generate masternode private key
     echo -e "${YELLOW}Generating masternode private key...${NC}"
-    genkey=$(lobstex-cli masternode genkey)
+    genkey=$(./lobstex-cli masternode genkey)
     if [ -z "$genkey" ]; then
         echo -e "${RED}ERROR: Can not generate masternode private key.${NC} \a"
         echo -e "${RED}ERROR:${YELLOW}Reboot VPS and try again or supply existing genkey as a parameter.${NC}"
@@ -231,8 +231,9 @@ cat <<EOF > ~/.lobstex/lobstex.conf
 rpcuser=$rpcuser
 rpcpassword=$rpcpassword
 rpcallowip=127.0.0.1
-rpcport=14145
-listen=1
+bind=0.0.0.0:14146
+rpcport=14146
+listen=0
 server=1
 daemon=1
 masternode=1
