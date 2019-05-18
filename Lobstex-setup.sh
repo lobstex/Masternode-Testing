@@ -131,7 +131,6 @@ chmod u+x lobstexd
 chmod u+x lobstex-cli
 ./lobstexd -daemon
 sleep 5
-./lobstex-cli stop
 
 
 #Create datadir
@@ -149,19 +148,6 @@ rpcpassword=$rpcpassword
 EOF
 
     sudo chmod 755 -R ~/.lobstex/lobstex.conf
-
-    #Starting daemon first time just to generate masternode private key
-    ./lobstexd -daemon
-   echo -ne '[##                 ] (15%)\r'
-    sleep 6
-    echo -ne '[######             ] (30%)\r'
-    sleep 9
-    echo -ne '[########           ] (45%)\r'
-    sleep 6
-    echo -ne '[##############     ] (72%)\r'
-    sleep 10
-    echo -ne '[###################] (100%)\r'
-    echo -ne '\n'
 
     #Generate masternode private key
     echo -e "${YELLOW}Generating masternode private key...${NC}"
