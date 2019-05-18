@@ -179,8 +179,8 @@ echo -e "${YELLOW}Creating lobstex.conf....${NC}"
 cat <<EOF > ~/.lobstex/lobstex.conf
 rpcuser=$rpcuser
 rpcpassword=$rpcpassword
-rpcallowip=127.0.0.1:14146
-listen=0
+rpcallowip=127.0.0.1
+-listen=0
 server=1
 daemon=1
 masternode=1
