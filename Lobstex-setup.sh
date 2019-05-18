@@ -373,4 +373,3 @@ download_node
 setup_node
 
 EOF
-}
