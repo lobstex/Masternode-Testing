@@ -97,46 +97,8 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt-get update -y
 sudo apt-get upgrade -y
 sudo apt-get dist-upgrade -y
+sudo apt-get install unzip
 
-sudo apt install unzip
-
-#Network Settings
-echo -e "${GREEN}Installing Network Settings...${NC}"
-{
-sudo apt-get install ufw -y
-} &> /dev/null
-echo -ne '[##                 ]  (10%)\r'
-{
-sudo apt-get update -y
-} &> /dev/null
-echo -ne '[######             ] (30%)\r'
-{
-sudo ufw default deny incoming
-} &> /dev/null
-echo -ne '[#########          ] (50%)\r'
-{
-sudo ufw default allow outgoing
-sudo ufw allow ssh
-} &> /dev/null
-echo -ne '[###########        ] (60%)\r'
-{
-sudo ufw allow $PORT/tcp
-sudo ufw allow $RPC/tcp
-} &> /dev/null
-echo -ne '[###############    ] (80%)\r'
-{
-sudo ufw allow 22/tcp
-sudo ufw limit 22/tcp
-} &> /dev/null
-echo -ne '[#################  ] (90%)\r'
-{
-echo -e "${YELLOW}"
-sudo ufw --force enable
-echo -e "${NC}"
-} &> /dev/null
-echo -ne '[###################] (100%)\n'
-
-echo -e "${GREEN}Packages complete....${NC}"
 
 #Generating Random Password for JSON RPC
 rpcuser=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
@@ -231,18 +193,20 @@ cat <<EOF > ~/.lobstex/lobstex.conf
 rpcuser=$rpcuser
 rpcpassword=$rpcpassword
 rpcallowip=127.0.0.1
-bind=0.0.0.0:14146
-rpcport=14146
 listen=0
 server=1
 daemon=1
 masternode=1
 maxconnections=256
-externalip=$publicip:$PORT
+longtimestamps=1
+externalip=$publicip
 masternode=1
-bind=$publicip:$PORT
+bind=$publicip
+masternodeaddr=$publicip:14146
 port=$PORT
 masternodeprivkey=$genkey
+
+
 EOF
 
 #Finally, starting lobstex daemon with new lobstex.conf
@@ -250,27 +214,6 @@ echo -e "${GREEN}Finally, starting lobstex daemon with new lobstex.conf....${NC}
 ./lobstexd -daemon
 delay 5
 
-# Download and install sentinel
-echo -e "${YELLOW}Installing Sentinel....${NC}"
-sleep 3
-cd
-sudo apt-get -y install python3-p
-sudo pip3 install virtualenv
-sudo apt-get install screen
-sudo git clone https://github.com/swatchie-1/sentinel.git /root/sentinel-lobstex
-export EDITOR=nano
-(crontab -l -u root 2>/dev/null; echo '* * * * * cd /root/sentinel-lobstex && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1') | sudo crontab -u root -
-
-#Setting auto star cron job for lobstexd
-echo -e "${GREEN}Setting auto star cron job for lobstexd....${NC}"
-cronjob="@reboot sleep 30 && ./lobstexd -daemon"
-crontab -l > tempcron
-if ! grep -q "$cronjob" tempcron; then
-    echo -e "${GREEN}Configuring crontab job...${NC}"
-    echo $cronjob >> tempcron
-    crontab tempcron
-if
-rm tempcron
 
 echo -e "========================================================================
 ${YELLOW}Masternode setup is complete!${NC}
@@ -339,13 +282,13 @@ then edit the lobstex.conf file and save it in nano: (Ctrl-X + Y + Enter),
 then start the lobstexd daemon back up:
 to stop:   ${YELLOW}./lobstex-cli stop${NC}
 to edit:   ${YELLOW}nano ~/.lobstex/lobstex.conf${NC}
-to start:  ${YELLOW}./lobstexd${NC}
+to start:  ${YELLOW}./lobstexd${NC}"
 ========================================================================
 To view lobstexd debug log showing all MN network activity in realtime:
 ${YELLOW}tail -f ~/.lobstex/debug.log${NC}
 ========================================================================
 To monitor system resource utilization and running processes:
-${YELLOW}"stop${NC}
+${YELLOW}stop${NC}
 ========================================================================
 Enjoy your Lobstex Masternode and thanks for using this setup script!
 
