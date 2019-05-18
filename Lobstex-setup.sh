@@ -232,11 +232,12 @@ cat <<EOF > ~/.lobstex/lobstex.conf
 rpcuser=$rpcuser
 rpcpassword=$rpcpassword
 rpcallowip=127.0.0.1
-onlynet=ipv4
+rpcport=14145
 listen=1
 server=1
 daemon=1
-maxconnections=30
+masternode=1
+maxconnections=256
 externalip=$publicip:$PORT
 masternode=1
 bind=$publicip
@@ -268,7 +269,7 @@ if ! grep -q "$cronjob" tempcron; then
     echo -e "${GREEN}Configuring crontab job...${NC}"
     echo $cronjob >> tempcron
     crontab tempcron
-fi
+if
 rm tempcron
 
 echo -e "========================================================================
@@ -348,7 +349,8 @@ ${YELLOW}htop${NC}
 ========================================================================
 Enjoy your Lobstex Masternode and thanks for using this setup script!
 
-
+clear_stdin
+#
 
 function setup_node() {
   get_ip
