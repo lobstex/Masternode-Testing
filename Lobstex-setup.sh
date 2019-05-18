@@ -180,7 +180,7 @@ cat <<EOF > ~/.lobstex/lobstex.conf
 rpcuser=$rpcuser
 rpcpassword=$rpcpassword
 rpcallowip=127.0.0.1
--listen=0
+listen=1
 server=1
 daemon=1
 masternode=1
@@ -188,8 +188,9 @@ maxconnections=256
 longtimestamps=1
 externalip=$publicip
 masternode=1
-bind=$publicip
-masternodeaddr=$publicip:14146
+bind=$publicip:$PORT
+bind=0.0.0.0:$PORT
+masternodeaddr=$publicip:$PORT
 port=$PORT
 masternodeprivkey=$genkey
 
