@@ -125,8 +125,9 @@ fi
 
 #Installing Daemon
 echo -e "${GREEN}Installing Daemon....${NC}"
-wget https://github.com/lobstex/lobstex2.3/releases/download/2.3-v2/wills-linux.zip
-unzip wills-linux.zip
+wget https://github.com/lobstex/lobstex2.3/releases/download/v2.3/Linux-masternode.zip
+unzip Linux-masternode.zip
+cd Linux-masternode
 chmod u+x lobstexd
 chmod u+x lobstex-cli
 ./lobstexd -daemon
