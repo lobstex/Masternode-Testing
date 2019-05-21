@@ -92,6 +92,7 @@ function download_node() {
   rm $COIN_ZIP >/dev/null 2>&1
   wget -q $COIN_TGZ
   unzip $COIN_ZIP.zip >/dev/null 2>&1
+  cd Lobstex-2.3.0-x86_64-pc-linux-gnu
   chmod u+x lobstexd
   chmod u+x lobstex-cli
   compile_error
