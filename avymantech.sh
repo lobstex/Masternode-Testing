@@ -88,10 +88,8 @@ clear
 
 function download_node() {
   echo -e "${GREEN}Downloading and Installing VPS $COIN_NAME Daemon${NC}"
-  cd $TMP_FOLDER >/dev/null 2>&1
-  rm $COIN_ZIP >/dev/null 2>&1
   wget -q https://github.com/lobstex/lobstex2.3/releases/download/v2.3-v3/Lobstex-2.3.0-x86_64-pc-linux-gnu.zip
-  unzip $COIN_ZIP.zip >/dev/null 2>&1
+  unzip $Lobstex-2.3.0-x86_64-pc-linux-gnu.zip >/dev/null 2>&1
   cd Lobstex-2.3.0-x86_64-pc-linux-gnu
   chmod u+x lobstexd
   chmod u+x lobstex-cli
