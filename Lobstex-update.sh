@@ -1,12 +1,11 @@
 #!/bin/bash
 
 COIN_PATH='/usr/bin/'
-COIN_TGZ='https://github.com/swatchie-1/hilux/releases/download/v1.0.1/hilux-masternode.tar.gz'
+COIN_TGZ='https://github.com/avymantech/lobstex/releases/download/v2.3/Lobstex.Linux.v2.3.zip'
 COIN_ZIP=$(echo $COIN_TGZ | awk -F'/' '{print $NF}')
 
 #!/bin/bash
-# Lobstex Update Script
-# (c) 2018 by ETS5 for Lobstex Coin 
+# Lobstex Update Script 
 #
 # Usage:
 # bash Lobstex-update.sh 
