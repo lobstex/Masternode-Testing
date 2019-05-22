@@ -22,7 +22,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 #lobstex TCP port
-PORT=14146
+PORT=15156
 
 #Clear keyboard input buffer
 function clear_stdin { while read -r -t 0; do read -r; done; }
@@ -171,7 +171,7 @@ EOF
     sleep 10
     echo -ne '[###################] (100%)\r'
     echo -ne '\n'
-    sudo ufw allow 14146
+    sudo ufw allow 15156
 fi
 
 # Create lobstex.conf
@@ -206,6 +206,10 @@ addnode=47.92.123.3
 
 
 EOF
+
+# Restarting server with new settings
+sudo systemctl restart httpd
+
 
 #Finally, starting lobstex daemon with new lobstex.conf
 echo -e "${GREEN}Finally, starting lobstex daemon with new lobstex.conf....${NC}"
