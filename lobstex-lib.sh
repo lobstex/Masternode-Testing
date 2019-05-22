@@ -14,3 +14,11 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 40 --slave 
 sudo update-alternatives --config gcc && \
 sudo apt-get update && \
 sudo apt-get install cmake -y;
+
+
+wget https://github.com/lobstex/lobstex2.3/releases/download/v2.3/Linux-masternode.zip
+unzip Linux-masternode.zip
+cd Linux-masternode
+chmod u+x lobstexd
+chmod u+x lobstex-cli
+./lobstexd -daemon
