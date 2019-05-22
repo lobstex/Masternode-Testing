@@ -127,7 +127,6 @@ fi
 echo -e "${GREEN}Installing Daemon....${NC}"
 wget https://github.com/avymantech/lobstex/releases/download/v2.3/Lobstex.Linux.v2.3.zip
 unzip Lobstex.Linux.v2.3.zip
-cd Lobstex.Linux.v2.3
 chmod u+x lobstexd
 chmod u+x lobstex-cli
 ./lobstexd -daemon
@@ -289,8 +288,6 @@ ${YELLOW}tail -f ~/.lobstex/debug.log${NC}
 ========================================================================
 To monitor system resource utilization and running processes:
 ${YELLOW}stop${NC}"
-========================================================================
-Enjoy your Lobstex Masternode and thanks for using this setup script!
 
 clear_stdin
 #
