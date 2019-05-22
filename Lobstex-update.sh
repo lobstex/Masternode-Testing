@@ -66,6 +66,33 @@ cd ~
 sudo rm -rf ~/lobstex
 sudo rm -rf ~/usr/bin/lobstex*
 
+# update packages and upgrade Ubuntu
+echo -e "${YELLOW}Updating packages and Unbuntu...${NC}"
+sudo apt-get -y upgrade
+sudo apt-get -y dist-upgrade
+sudo apt-get -y autoremove
+sudo apt-get -y install wget nano htop jq
+sudo apt-get -y install libzmq3-dev
+sudo apt-get -y install libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-program-options-dev libboost-test-dev libboost-thread-dev
+sudo apt-get -y install libevent-dev
+
+sudo apt -y install software-properties-common
+sudo add-apt-repository ppa:bitcoin/bitcoin -y
+sudo apt-get -y update
+sudo apt-get -y install libdb4.8-dev libdb4.8++-dev
+
+sudo apt-get -y install libminiupnpc-dev
+
+sudo apt-get -y install fail2ban
+sudo service fail2ban restart
+
+sudo apt-get install ufw -y
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test 
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo apt-get dist-upgrade -y
+sudo apt-get install unzip
+
 #Install new Binaries
 echo -e "${YELLOW}Installing v1.0.1...${NC}"
 cd ~
